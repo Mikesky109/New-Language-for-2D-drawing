@@ -1,0 +1,78 @@
+Package plotgraph;
+
+Helpers
+lc_letter = ['a'..'z'];
+uc_letter = ['A'..'Z'];
+letter = lc_letter | uc_letter;
+
+Tokens
+sin = 'sin';
+cos = 'cos';
+pi = 'pi';
+line = 'LINE';
+circle = 'CIRCLE';
+polygon = 'POLYGON';
+for = 'For';
+to = 'To';
+colour = ('RED'|'BLUE'|'YELLOW'|'GREEN');
+sqrt = 'sqrt';
+type = ('int'|'str'|'float');
+number = ['0' .. '9']+;
+identifier =  letter+;
+plus = '+';
+sub = '-';
+multi = '*';
+div = '/';
+opequal = '=';
+square = '^2';
+l_par = '(';
+r_par = ')';
+blank = (' ' | 13 | 10)+;
+comma = ',';
+
+Ignored Tokens
+blank;
+
+Productions
+	
+program = {list} statementlist;
+
+statementlist = {stmt} statement | {list} statement statementlist;
+
+statement = {expr} expr | 
+	    {declareone} type identifier opequal expr | 
+	    {declaretwo} type identifier|
+	    {assign} identifier opequal expr |
+	    {loopfunction} loop |
+	    {circle} circle unary |
+            {line} line unary |
+	    {polygon} polygon unary ;
+	
+expr =  {plus} expr plus factor |
+  	{minus} expr sub factor |
+	{factor} factor ;
+
+factor = {multi} factor multi unary |
+	 {div} factor div unary |
+	 {sin} sin l_par expr r_par |
+	 {cos} cos l_par expr r_par |
+	 {sqrt} sqrt l_par expr r_par |
+	 {unary} unary;
+	 
+unary = {comma} unary comma variable|
+	{commatwo} unary comma colour |
+        {par} l_par expr r_par |
+        {variable} variable;
+
+loop = {forloop} for identifier opequal range variable;
+
+range = {rangeone} variable to;
+
+variable = {numberone} number |
+           {identifier1} identifier;
+
+
+
+
+
+
